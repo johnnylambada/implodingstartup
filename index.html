@@ -82,6 +82,7 @@
       </section>
 
     </div>
+<<<<<<< HEAD
   
 
    <script type="xt-emplate" id="companyTemplate">
@@ -122,4 +123,23 @@
         <% });%>
     </script>    
     </body>
+=======
+    <script>
+      window.love = [];
+      window.hate = [];
+      $().ready(function(){
+        $("#up").click( function() {
+          var companyname = $.data($(this), "company");
+          window.love.push(companyname);
+        });
+      });
+      $().ready(function () {
+        $("#down").click( function() {
+          var companyname = $.data($(this), "company");
+          window.hate.push(companyname);
+        });
+      });
+    </script>
+  </body>
+>>>>>>> b043768670d0a676c0810221666cfd1bf312f998
 </html>

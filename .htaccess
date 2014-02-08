@@ -1,7 +1,0 @@
-# Block External Access
-<Directory "/private/">
-    deny from all
-</Directory>
-<Directory "/spec/">
-    deny from all
-</Directory>

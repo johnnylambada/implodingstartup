@@ -1,40 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link href='http://fonts.googleapis.com/css?family=Lobster|Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
+    <title>IMPLODING STARTUP</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='http://fonts.googleapis.com/css?family=Lobster|Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="css/implodingstartup.css" rel="stylesheet" type="text/css" />
+    <script src="http://code.onion.com/fartscroll.js"></script>
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/underscore-min.js"></script>
+    <script>
+        // window.apiKey = "pb8pcbtg488mp7xyprf3mq77";
+        // window.apiEndpoint = "http://api.crunchbase.com/v/1/search.js?query=recent&entity=company&api_key="+ apiKey
+        window.apiEndpoint = "api-proxy.php";
+        console.log("Wonderfull...");
+        $().ready(function(){
+            fartscroll(200);
 
-    <title>IMPLODING STARTUP</title>
+            console.log("ready....");
+            $.ajax({
+                method: "GET",
+                url: window.apiEndpoint,
+                data: "",
+                error: function(){ console.log("something went wrong."); }
+            }).done(function(data){
+                console.log("done...");
+                temp = _.template($("#companyTemplate").html());
+                data = JSON.parse(data);
+                console.log(data.startups);
+                console.log(data.startups[0].markets);
+                $("#companies-container").html(temp(data));
+
+                $('.btn-success').click(function(){
+                    alert("Really?");
+                    confirm("Seriously! Really!?!?!?!??");
+                });
+
+                $('.btn-danger').click(function(){
+                    alert("Damn Right! That idea sucks!");
+                });
+            });
+        });
+    </script>
   </head>
 
   <body>   
     <header>
       <div class="container">
-        <h1 id="logo">IMPLODING STARTUP</h1>
-        <div class="text-center">
-          <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-thumbs-down"></span> Not a chance</button>
-          <img src="http://s3.amazonaws.com/crunchbase_prod_assets/assets/images/resized/0002/2463/22463v10-max-250x250.png" class="img-thumbnail text-center">
-          <button type="button" class="btn btn-success">This changes everything <span class="glyphicon glyphicon-thumbs-up"></span></button>
-        </div>
+        <h1 id="logo">IMPLODING STARTUP</h1>        
       </div>
     </header>
     
-    <div class="container">
-      <section id="info">
+    <div class="container" id="companies-container">
+      
+      <section id="info" class="col-md-offset-2 col-md-8">
+        <div class="text-center">
+          <button type="button" class="btn btn-danger" style="min-width:150px;">
+            <span class="glyphicon glyphicon-thumbs-down" style="font-size:4em;"></span> 
+            <br>Not a chance
+          </button>
+
+          <img id="company-logo" src="http://s3.amazonaws.com/crunchbase_prod_assets/assets/images/resized/0002/2463/22463v10-max-250x250.png" class="img-thumbnail text-center">
+          
+          <button type="button" class="btn btn-success" style="min-width:150px;">
+            <span class="glyphicon glyphicon-thumbs-up" style="font-size:4em;"></span>
+            <br>This changes everything
+          </button>
+        </div>
+
         <div class="row">
-          <div class="col-md-3">
+          <div id="company-stats" class="col-md-3">
             Founded: 2009<br/>
             Category: Health<br/>
             Funding: 500k<br/>
             Website: implodingstartup.com
           </div>
-          <div class="col-md-9">
+          <div id="company-desc" class="col-md-9">
             MongoDB (from humongous) is reinventing data management and powering big data as the leading NoSQL database. Designed for how we build and run applications today, MongoDB empowers organizations to be more agile and scalable. It enables new types of applications, better customer experience, faster time to market and lower costs. MongoDB has a thriving global community with over 4 million downloads, 100,000 online education registrations, 20,000 user group members and 20,000 MongoDB Days attendees. The company has more than 600 customers, including many of the world’s largest organizations.
           </div>
         </div>
       </section>
+
     </div>
-  </body>
+  
+
+   <script type="xt-emplate" id="companyTemplate">
+        <% _.each(startups, function(startup){ %>
+            <!-- INSIDE FUNCTION -->
+            <section id="info" class="col-md-offset-2 col-md-8" style="border:solid 1px #888;margin-top:20px;">
+                <div class="text-center">
+                  <h1 class="text-center"><%=startup.name%></h1>
+
+                  <button type="button" class="btn btn-danger" style="min-width:150px;">
+                    <span class="glyphicon glyphicon-thumbs-down" style="font-size:4em;"></span> 
+                    <br>Not a chance
+                  </button>
+                  
+                  <img id="company-logo" src="<%=startup.logo_url%>" class="img-thumbnail text-center">
+                  
+                  <button type="button" class="btn btn-success" style="min-width:150px;">
+                    <span class="glyphicon glyphicon-thumbs-up" style="font-size:4em;"></span>
+                    <br>This changes everything
+                  </button>
+                </div>
+
+                <div class="row">
+                  <div id="company-stats" class="col-md-3">
+                    <b>Concept</b>: <%=startup.high_concept%><br>
+                    <b>Raising </b>Amount: <%=startup.fundraising.raising_amount%><br>
+                    <b>Valuation</b>: <%=startup.fundraising.pre_money_valuation%><br>
+                    <b>Raised Amount</b>: <%=startup.fundraising.raised_amount%><br>
+                    <b>Website</b>: <%=startup.company_url%><br>
+                  </div>
+                  <div id="company-desc" class="col-md-9">
+                    <%=startup.product_desc%>
+                  </div>
+                </div>
+              </section>
+
+            <!-- END INSIDE FUNCTION -->
+        <% });%>
+    </script>    
+    </body>
 </html>

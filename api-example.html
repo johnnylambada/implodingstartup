@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>API Testing Ground</title>
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script>
+        // window.apiKey = "pb8pcbtg488mp7xyprf3mq77";
+        // window.apiEndpoint = "http://api.crunchbase.com/v/1/search.js?query=recent&entity=company&api_key="+ apiKey
+        window.apiEndpoint = "api-proxy.php";
+        console.log("Wonderfull...");
+        $().ready(function(){
+            console.log("ready....");
+            $.ajax({
+                method: "GET",
+                url: window.apiEndpoint,
+                data: "",
+                error: function(){ console.log("something went wrong."); }
+            }).done(function(data){
+                console.log("done...");
+                document.write("<textarea>"+data+"textarea");
+            });
+        });
+    </script>
+</head>
+<body>
+<p>Waiting...</p>
+</body>
+</html>

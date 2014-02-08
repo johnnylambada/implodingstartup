@@ -1,7 +1,35 @@
 <html>
 <head>
     <title>API Testing Ground</title>
+    <script type="xt-emplate" id="companyTemplate">
+        <% _.each(startups, function(startup){ %>
+            <!-- INSIDE FUNCTION -->
+            <div style="border:solid 1px #999;float:left:clear:none;">
+                <h1><%=startup.name%></h1>
+                <img src="<%=startup.logo_url%>">
+                <h2>Markets</h2>
+                <ul>
+                    <% _.each(startup.markets, function(market) { %> <li><%= market.display_name %></li> <% }); %>
+                </ul>
+                
+                <h2>Locations</h2>
+                <ul>
+                    <% _.each(startup.locations, function(locations) { %> <li><%= location.display_name %></li> <% }); %>
+                </ul>
+
+                <h2>Fund Raising</h2>
+                <ul>
+                    <%=startup.fundraising.raising_amount%>
+                    <%=startup.fundraising.pre_money_valuation%>
+                    <%=startup.fundraising.raised_amount%>
+                </ul>
+            </div>
+            <!-- END INSIDE FUNCTION -->
+        <% });%>
+    </script>
+
     <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/underscore-min.js"></script>
     <script>
         // window.apiKey = "pb8pcbtg488mp7xyprf3mq77";
         // window.apiEndpoint = "http://api.crunchbase.com/v/1/search.js?query=recent&entity=company&api_key="+ apiKey
@@ -16,7 +44,11 @@
                 error: function(){ console.log("something went wrong."); }
             }).done(function(data){
                 console.log("done...");
-                document.write("<textarea>"+data+"textarea");
+                temp = _.template($("#companyTemplate").html());
+                data = JSON.parse(data);
+                console.log(data.startups);
+                console.log(data.startups[0].markets);
+                document.write(temp(data));
             });
         });
     </script>

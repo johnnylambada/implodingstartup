@@ -36,5 +36,21 @@
         </div>
       </section>
     </div>
+    <script>
+      window.love = [];
+      window.hate = [];
+      $().ready(function(){
+        $("#up").click( function() {
+          var companyname = $.data($(this), "company");
+          window.love.push(companyname);
+        });
+      });
+      $().ready(function () {
+        $("#down").click( function() {
+          var companyname = $.data($(this), "company");
+          window.hate.push(companyname);
+        });
+      });
+    </script>
   </body>
 </html>

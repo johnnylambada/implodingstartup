@@ -8,6 +8,7 @@
     <link href="css/implodingstartup.css" rel="stylesheet" type="text/css" />
     <script src="http://code.onion.com/fartscroll.js"></script>
     <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/lovehate.js"></script>
     <script src="js/underscore-min.js"></script>
     <script>
         // window.apiKey = "pb8pcbtg488mp7xyprf3mq77";
@@ -82,8 +83,22 @@
       </section>
 
     </div>
-<<<<<<< HEAD
-  
+    <script>
+      window.love = [];
+      window.hate = [];
+      $().ready(function(){
+        $(".btn-success").click( function() {
+          var companyname = $.data($(this), "company");
+          window.love.push(companyname);
+        });
+      });
+      $().ready(function () {
+        $(".btn-danger").click( function() {
+          var companyname = $.data($(this), "company");
+          window.hate.push(companyname);
+        });
+      });
+    </script>
 
    <script type="xt-emplate" id="companyTemplate">
         <% _.each(startups, function(startup){ %>
@@ -94,14 +109,14 @@
 
                   <button type="button" class="btn btn-danger" style="min-width:150px;">
                     <span class="glyphicon glyphicon-thumbs-down" style="font-size:4em;"></span> 
-                    <br>Not a chance
+                    <br> <%=LoveHate.hate()%>
                   </button>
                   
                   <img id="company-logo" src="<%=startup.logo_url%>" class="img-thumbnail text-center">
                   
                   <button type="button" class="btn btn-success" style="min-width:150px;">
                     <span class="glyphicon glyphicon-thumbs-up" style="font-size:4em;"></span>
-                    <br>This changes everything
+                    <br> <%=LoveHate.love()%>
                   </button>
                 </div>
 
@@ -123,23 +138,4 @@
         <% });%>
     </script>    
     </body>
-=======
-    <script>
-      window.love = [];
-      window.hate = [];
-      $().ready(function(){
-        $("#up").click( function() {
-          var companyname = $.data($(this), "company");
-          window.love.push(companyname);
-        });
-      });
-      $().ready(function () {
-        $("#down").click( function() {
-          var companyname = $.data($(this), "company");
-          window.hate.push(companyname);
-        });
-      });
-    </script>
-  </body>
->>>>>>> b043768670d0a676c0810221666cfd1bf312f998
 </html>
